@@ -61,6 +61,11 @@ class Parser:
     def __parse_recently_added_token(tr: BeautifulSoup) -> Optional[RecentlyAddedToken]:
         tds = tr.find_all('td')
         compiler_issues_element = tds[3].find('span')
+        
+        @noraise(print_exc=False, default_return_value=0.0)
+        def get_bnb_balance(element) -> float:
+            return float(element.text.split(' ')[0])
+
 
         return RecentlyAddedToken(
             address=tds[0].find('a')['title'],
@@ -70,7 +75,7 @@ class Parser:
                 version=tds[3].text,
                 issues_message=compiler_issues_element['title'] if compiler_issues_element else None
             ),
-            balance_bnb=float(tds[4].text.split(' ')[0]),
+            balance_bnb=get_bnb_balance(tds[4]),
             txns=int(tds[5].text),
             verified_date=tds[7].text,
             audited=tds[8].text,
