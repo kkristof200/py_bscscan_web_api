@@ -6,9 +6,9 @@ from typing import Optional, List
 # Pip
 from requests import Response
 from noraise import noraise
+from bs4 import BeautifulSoup
 
 # Local
-from bs4 import BeautifulSoup
 from .models import RecentlyAddedToken, Compiler, Token
 
 # -------------------------------------------------------------------------------------------------------------------------------- #
@@ -51,18 +51,6 @@ class Parser:
 
         if not soup:
             return None
-        
-        return 
-
-        return [t for t in
-            [
-                cls.__parse_recently_added_token(tr)
-                for tr in soup.find('tbody').find_all('tr')
-            ]
-            if t
-        ]
-        
-        ContentPlaceHolder1_tr_tokenHolders
 
 
     # ---------------------------------------------------- Private methods --------------------------------------------------- #
