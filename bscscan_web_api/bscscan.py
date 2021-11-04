@@ -8,7 +8,7 @@ from ksimpleapi import Api
 
 # Local
 from ._parser import Parser
-from .models import RecentlyAddedToken
+from .models import RecentlyAddedToken, Token
 
 # -------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -34,6 +34,14 @@ class BSCScan(Api):
 
 
     # ---------------------------------------------------- Public methods ---------------------------------------------------- #
+
+    def get_token(
+        self,
+        address: str
+    ) -> Optional[Token]:
+        return Parser.parse_token(
+            self._get(f'https://bscscan.com/token/{address}')
+        )
 
     def get_recently_added_tokens(self) -> List[RecentlyAddedToken]:
         tokens = []

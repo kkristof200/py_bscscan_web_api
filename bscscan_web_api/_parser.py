@@ -9,7 +9,7 @@ from noraise import noraise
 
 # Local
 from bs4 import BeautifulSoup
-from .models import RecentlyAddedToken, Compiler
+from .models import RecentlyAddedToken, Compiler, Token
 
 # -------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -19,32 +19,41 @@ from .models import RecentlyAddedToken, Compiler
 
 class Parser:
 
-    # --------------------------------------------------------- Init --------------------------------------------------------- #
-
-    def __init__(
-        self
-    ):
-        return
-
-
-    # --------------------------------------------------- Public properties -------------------------------------------------- #
-
-
-
-
     # ---------------------------------------------------- Public methods ---------------------------------------------------- #
 
     @classmethod
     @noraise()
     def parse_recently_added_tokens(
         cls,
+        address: str,
         response: Optional[Response]
     ) -> Optional[List[RecentlyAddedToken]]:
         soup = cls.__get_bs(response)
 
         if not soup:
             return None
+
+        holders_text = soup.find('div', id_='ContentPlaceHolder1_tr_tokenHolders').find('div', class_='mr-3').text
+
+        return Token(
+            address=address,
+            holders=int(''.join(filter(str.isdigit, holders_text)) or '0'),
+            transfers=int(''.join(filter(str.isdigit, soup.find('span', id_='totaltxns').text)) or '0')
+        )
+    
+    @classmethod
+    @noraise()
+    def parse_token(
+        cls,
+        response: Optional[Response]
+    ) -> Optional[RecentlyAddedToken]:
+        soup = cls.__get_bs(response)
+
+        if not soup:
+            return None
         
+        return 
+
         return [t for t in
             [
                 cls.__parse_recently_added_token(tr)
@@ -52,6 +61,8 @@ class Parser:
             ]
             if t
         ]
+        
+        ContentPlaceHolder1_tr_tokenHolders
 
 
     # ---------------------------------------------------- Private methods --------------------------------------------------- #
