@@ -6,9 +6,9 @@ from typing import Optional, List
 # Pip
 from requests import Response
 from noraise import noraise
-from bs4 import BeautifulSoup
 
 # Local
+from bs4 import BeautifulSoup
 from .models import RecentlyAddedToken, Compiler, Token
 
 # -------------------------------------------------------------------------------------------------------------------------------- #
@@ -19,15 +19,47 @@ from .models import RecentlyAddedToken, Compiler, Token
 
 class Parser:
 
+    # --------------------------------------------------------- Init --------------------------------------------------------- #
+
+    def __init__(
+        self
+    ):
+        return
+
+
+    # --------------------------------------------------- Public properties -------------------------------------------------- #
+
+
+
+
     # ---------------------------------------------------- Public methods ---------------------------------------------------- #
 
     @classmethod
     @noraise()
     def parse_recently_added_tokens(
         cls,
-        address: str,
         response: Optional[Response]
     ) -> Optional[List[RecentlyAddedToken]]:
+        soup = cls.__get_bs(response)
+
+        if not soup:
+            return None
+        
+        return [t for t in
+            [
+                cls.__parse_recently_added_token(tr)
+                for tr in soup.find('tbody').find_all('tr')
+            ]
+            if t
+        ]
+    
+    @classmethod
+    @noraise()
+    def parse_token(
+        cls,
+        address: str,
+        response: Optional[Response]
+    ) -> Optional[RecentlyAddedToken]:
         soup = cls.__get_bs(response)
 
         if not soup:
@@ -40,17 +72,6 @@ class Parser:
             holders=int(''.join(filter(str.isdigit, holders_text)) or '0'),
             transfers=int(''.join(filter(str.isdigit, soup.find('span', id_='totaltxns').text)) or '0')
         )
-    
-    @classmethod
-    @noraise()
-    def parse_token(
-        cls,
-        response: Optional[Response]
-    ) -> Optional[RecentlyAddedToken]:
-        soup = cls.__get_bs(response)
-
-        if not soup:
-            return None
 
 
     # ---------------------------------------------------- Private methods --------------------------------------------------- #

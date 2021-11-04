@@ -40,6 +40,7 @@ class BSCScan(Api):
         address: str
     ) -> Optional[Token]:
         return Parser.parse_token(
+            address,
             self._get(f'https://bscscan.com/token/{address}')
         )
 
