@@ -10,7 +10,7 @@ else:
 
 setuptools.setup(
     name='bscscan_web_api',
-    version='0.0.5',
+    version='0.0.6',
     author='Kristóf-Attila Kovács',
     description='bscscan_web_api',
     long_description=long_description,
@@ -20,7 +20,7 @@ setuptools.setup(
     install_requires=[
         'beautifulsoup4>=4.10.0',
         'jsoncodable>=0.1.7',
-        'ksimpleapi>=0.0.50',
+        'ksimpleapi>=0.0.40',
         'noraise>=0.0.16',
         'requests>=2.26.0'
     ],

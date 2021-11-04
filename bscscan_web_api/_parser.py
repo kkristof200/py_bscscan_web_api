@@ -65,12 +65,12 @@ class Parser:
         if not soup:
             return None
 
-        holders_text = soup.find('div', id_='ContentPlaceHolder1_tr_tokenHolders').find('div', class_='mr-3').text
+        holders_text = soup.find('div', id='ContentPlaceHolder1_tr_tokenHolders').find('div', class_='mr-3').text
 
         return Token(
             address=address,
             holders=int(''.join(filter(str.isdigit, holders_text)) or '0'),
-            transfers=int(''.join(filter(str.isdigit, soup.find('span', id_='totaltxns').text)) or '0')
+            transfers=int(''.join(filter(str.isdigit, soup.find('span', id='totaltxns').text)) or '0')
         )
 
 
