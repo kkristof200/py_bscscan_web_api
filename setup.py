@@ -10,7 +10,7 @@ else:
 
 setuptools.setup(
     name='bscscan_web_api',
-    version='0.0.6',
+    version='0.0.7',
     author='Kristóf-Attila Kovács',
     description='bscscan_web_api',
     long_description=long_description,

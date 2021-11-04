@@ -70,7 +70,7 @@ class Parser:
         return Token(
             address=address,
             holders=int(''.join(filter(str.isdigit, holders_text)) or '0'),
-            transfers=int(''.join(filter(str.isdigit, soup.find('span', id='totaltxns').text)) or '0')
+            transfers=int(''.join(filter(str.isdigit, soup.find('div', id='ContentPlaceHolder1_trNoOfTxns').find('span', id='totaltxns').text)) or '0')
         )
 
 
